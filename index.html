@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Valentine's Week 💕</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #ffeef8 0%,
+          #ffe0f0 50%,
+          #ffd4e8 100%
+        );
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        overflow-x: hidden;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeInDown 1s ease;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        color: #d63384;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.1);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        color: #8b3a62;
+        font-style: italic;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1rem;
+      }
+
+      .day-card {
+        background: linear-gradient(135deg, #fff 0%, #fffafd 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(214, 51, 132, 0.15);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease backwards;
+        text-decoration: none;
+        display: block;
+      }
+
+      .day-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .day-card:hover::before {
+        left: 100%;
+      }
+
+      .day-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(214, 51, 132, 0.25);
+      }
+
+      .day-card.passed {
+        opacity: 0.5;
+        filter: grayscale(60%);
+        cursor: default;
+        position: relative;
+      }
+
+      .day-card.passed::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        right: -10%;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #d63384, transparent);
+        transform: translateY(-50%) rotate(-5deg);
+        box-shadow: 0 0 10px rgba(214, 51, 132, 0.5);
+      }
+
+      .day-card.passed:hover {
+        transform: none;
+        box-shadow: 0 8px 32px rgba(214, 51, 132, 0.15);
+      }
+
+      .day-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .day-name {
+        font-size: 1.5rem;
+        color: #d63384;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .day-date {
+        font-size: 1rem;
+        color: #8b3a62;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
+      .countdown {
+        background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+
+      .countdown-label {
+        font-size: 0.8rem;
+        color: #8b3a62;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+      }
+
+      .countdown-values {
+        display: flex;
+        justify-content: space-around;
+        gap: 0.5rem;
+      }
+
+      .countdown-item {
+        text-align: center;
+        flex: 1;
+      }
+
+      .countdown-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #d63384;
+        display: block;
+      }
+
+      .countdown-text {
+        font-size: 0.7rem;
+        color: #8b3a62;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.2rem;
+      }
+
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 1.5rem;
+        animation: floatUp 15s infinite ease-in;
+        opacity: 0;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes floatUp {
+        0% {
+          bottom: -10%;
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.3;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          bottom: 110%;
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .day-card {
+          padding: 1.5rem;
+        }
+      }
+
+      /* Animation delays for cards */
+      .day-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .day-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .day-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .day-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .day-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .day-card:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+      .day-card:nth-child(7) {
+        animation-delay: 0.7s;
+      }
+      .day-card:nth-child(8) {
+        animation-delay: 0.8s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts" id="hearts"></div>
+
+    <div class="header">
+      <h1>Our Valentine's Week 💕</h1>
+      <p>Every day is a celebration of us</p>
+    </div>
+
+    <div class="container" id="container"></div>
+
+    <script>
+      // Valentine's Week days configuration
+      const valentineDays = [
+        {
+          name: "Rose Day",
+          icon: "🌹",
+          date: "2026-02-07",
+          link: "https://rose-day-puce-iota.vercel.app/",
+        },
+        {
+          name: "Propose Day",
+          icon: "💍",
+          date: "2026-02-08",
+          link: "https://example.com/propose-day",
+        },
+        {
+          name: "Chocolate Day",
+          icon: "🍫",
+          date: "2026-02-09",
+          link: "https://example.com/chocolate-day",
+        },
+        {
+          name: "Teddy Day",
+          icon: "🧸",
+          date: "2026-02-10",
+          link: "https://example.com/teddy-day",
+        },
+        {
+          name: "Promise Day",
+          icon: "🤝",
+          date: "2026-02-11",
+          link: "https://example.com/promise-day",
+        },
+        {
+          name: "Hug Day",
+          icon: "🤗",
+          date: "2026-02-12",
+          link: "https://example.com/hug-day",
+        },
+        {
+          name: "Kiss Day",
+          icon: "💋",
+          date: "2026-02-13",
+          link: "https://example.com/kiss-day",
+        },
+        {
+          name: "Valentine's Day",
+          icon: "❤️",
+          date: "2026-02-14",
+          link: "https://example.com/valentines-day",
+        },
+      ];
+
+      // Format date for display
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const options = { month: "long", day: "numeric", year: "numeric" };
+        return date.toLocaleDateString("en-US", options);
+      }
+
+      // Calculate countdown
+      function getCountdown(targetDate) {
+        const now = new Date();
+        // Create target date at midnight local time
+        const target = new Date(targetDate + "T00:00:00");
+        const diff = target - now;
+
+        if (diff <= 0) {
+          return { passed: true };
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        return { passed: false, days, hours, minutes, seconds };
+      }
+
+      // Create card HTML
+      function createCard(day) {
+        const countdown = getCountdown(day.date);
+        const passedClass = countdown.passed ? "passed" : "";
+
+        const countdownHTML = countdown.passed
+          ? `<div class="countdown">
+                     <div class="countdown-label">This day has passed ✨</div>
+                   </div>`
+          : `<div class="countdown">
+                     <div class="countdown-label">Time Until ${day.name}</div>
+                     <div class="countdown-values">
+                       <div class="countdown-item">
+                         <span class="countdown-number" data-days>${countdown.days}</span>
+                         <span class="countdown-text">Days</span>
+                       </div>
+                       <div class="countdown-item">
+                         <span class="countdown-number" data-hours>${countdown.hours}</span>
+                         <span class="countdown-text">Hours</span>
+                       </div>
+                       <div class="countdown-item">
+                         <span class="countdown-number" data-minutes>${countdown.minutes}</span>
+                         <span class="countdown-text">Mins</span>
+                       </div>
+                       <div class="countdown-item">
+                         <span class="countdown-number" data-seconds>${countdown.seconds}</span>
+                         <span class="countdown-text">Secs</span>
+                       </div>
+                     </div>
+                   </div>`;
+
+        return `
+                <a href="${day.link}" class="day-card ${passedClass}" data-date="${day.date}">
+                    <span class="day-icon">${day.icon}</span>
+                    <div class="day-name">${day.name}</div>
+                    <div class="day-date">${formatDate(day.date)}</div>
+                    ${countdownHTML}
+                </a>
+            `;
+      }
+
+      // Initialize cards
+      function initializeCards() {
+        const container = document.getElementById("container");
+        container.innerHTML = valentineDays
+          .map((day) => createCard(day))
+          .join("");
+      }
+
+      // Update all countdowns
+      function updateCountdowns() {
+        valentineDays.forEach((day, index) => {
+          const card = document.querySelectorAll(".day-card")[index];
+          const countdown = getCountdown(day.date);
+
+          if (countdown.passed && !card.classList.contains("passed")) {
+            card.classList.add("passed");
+            const countdownDiv = card.querySelector(".countdown");
+            countdownDiv.innerHTML =
+              '<div class="countdown-label">This day has passed ✨</div>';
+          } else if (!countdown.passed) {
+            const daysEl = card.querySelector("[data-days]");
+            const hoursEl = card.querySelector("[data-hours]");
+            const minutesEl = card.querySelector("[data-minutes]");
+            const secondsEl = card.querySelector("[data-seconds]");
+
+            if (daysEl) daysEl.textContent = countdown.days;
+            if (hoursEl) hoursEl.textContent = countdown.hours;
+            if (minutesEl) minutesEl.textContent = countdown.minutes;
+            if (secondsEl) secondsEl.textContent = countdown.seconds;
+          }
+        });
+      }
+
+      // Create floating hearts
+      function createFloatingHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        const heartSymbols = ["💕", "💖", "💗", "💓", "💝"];
+
+        setInterval(() => {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.textContent =
+            heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.animationDuration = Math.random() * 10 + 10 + "s";
+          heart.style.fontSize = Math.random() * 1 + 1 + "rem";
+          heartsContainer.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 15000);
+        }, 3000);
+      }
+
+      // Initialize
+      initializeCards();
+      updateCountdowns();
+      createFloatingHearts();
+
+      // Update countdowns every second
+      setInterval(updateCountdowns, 1000);
+    </script>
+  </body>
+</html>
