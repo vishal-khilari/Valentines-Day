@@ -91,30 +91,6 @@
         box-shadow: 0 16px 48px rgba(214, 51, 132, 0.25);
       }
 
-      .day-card.passed {
-        opacity: 0.5;
-        filter: grayscale(60%);
-        cursor: default;
-        position: relative;
-      }
-
-      .day-card.passed::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: -10%;
-        right: -10%;
-        height: 3px;
-        background: linear-gradient(90deg, transparent, #d63384, transparent);
-        transform: translateY(-50%) rotate(-5deg);
-        box-shadow: 0 0 10px rgba(214, 51, 132, 0.5);
-      }
-
-      .day-card.passed:hover {
-        transform: none;
-        box-shadow: 0 8px 32px rgba(214, 51, 132, 0.15);
-      }
-
       .day-card.unlocked {
         display: flex;
         flex-direction: column;
@@ -122,6 +98,7 @@
         align-items: center;
         text-align: center;
         min-height: 300px;
+        cursor: pointer;
       }
 
       .day-card.unlocked .day-icon {
@@ -521,8 +498,6 @@
       // Create card HTML
       function createCard(day) {
         const countdown = getCountdown(day.date);
-        const passedClass = countdown.passed ? "passed" : "";
-        const unlockedClass = countdown.passed ? "" : "";
 
         const countdownHTML = countdown.passed
           ? ""
@@ -550,7 +525,7 @@
 
         // Don't use href for locked cards, add it dynamically when unlocked
         return `
-                <div class="day-card ${passedClass}" data-date="${day.date}" data-link="${day.link}" data-unlocked="${countdown.passed}">
+                <div class="day-card" data-date="${day.date}" data-link="${day.link}" data-unlocked="${countdown.passed}">
                     <span class="day-icon">${day.icon}</span>
                     <div class="day-name">${day.name}</div>
                     <div class="day-date">${formatDate(day.date)}</div>
@@ -615,9 +590,8 @@
           const countdown = getCountdown(day.date);
 
           if (countdown.passed && card.dataset.unlocked === "false") {
-            // Just became unlocked
+            // Just became unlocked - keep card fully visible and clean
             card.dataset.unlocked = "true";
-            card.classList.remove("passed");
             card.classList.add("unlocked");
 
             // Smooth transition - hide countdown first
