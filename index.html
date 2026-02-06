@@ -115,11 +115,138 @@
         box-shadow: 0 8px 32px rgba(214, 51, 132, 0.15);
       }
 
+      .day-card.unlocked {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 300px;
+      }
+
+      .day-card.unlocked .day-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .day-card.unlocked .day-name {
+        font-size: 2rem;
+        margin: 0;
+      }
+
+      .day-card.unlocked .day-date,
+      .day-card.unlocked .countdown {
+        display: none;
+      }
+
       .day-icon {
         font-size: 3rem;
         margin-bottom: 1rem;
         display: block;
         animation: float 3s ease-in-out infinite;
+      }
+
+      /* Modal Overlay */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(214, 51, 132, 0.95);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.4s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #fff 0%, #fffafd 100%);
+        border-radius: 30px;
+        padding: 3rem 2rem;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .modal-emoji {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        animation: bounce 1s ease infinite;
+      }
+
+      .modal-message {
+        font-size: 1.5rem;
+        color: #d63384;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .modal-close {
+        background: linear-gradient(135deg, #d63384 0%, #c1276d 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+      }
+
+      .modal-close:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
       }
 
       .day-name {
@@ -288,6 +415,21 @@
   <body>
     <div class="hearts" id="hearts"></div>
 
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modal">
+      <div class="modal-content">
+        <span class="modal-emoji">😌</span>
+        <div class="modal-message">
+          Aww impatient already? 😌<br />
+          Good things take a little time…<br />
+          Come back soon 💕
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          Okay, I'll wait 💖
+        </button>
+      </div>
+    </div>
+
     <div class="header">
       <h1>Our Valentine's Week 💕</h1>
       <p>Every day is a celebration of us</p>
@@ -302,7 +444,7 @@
           name: "Rose Day",
           icon: "🌹",
           date: "2026-02-07",
-          link: "https://rose-day-puce-iota.vercel.app/",
+          link: "https://example.com/rose-day",
         },
         {
           name: "Propose Day",
@@ -380,11 +522,10 @@
       function createCard(day) {
         const countdown = getCountdown(day.date);
         const passedClass = countdown.passed ? "passed" : "";
+        const unlockedClass = countdown.passed ? "" : "";
 
         const countdownHTML = countdown.passed
-          ? `<div class="countdown">
-                     <div class="countdown-label">This day has passed ✨</div>
-                   </div>`
+          ? ""
           : `<div class="countdown">
                      <div class="countdown-label">Time Until ${day.name}</div>
                      <div class="countdown-values">
@@ -407,13 +548,14 @@
                      </div>
                    </div>`;
 
+        // Don't use href for locked cards, add it dynamically when unlocked
         return `
-                <a href="${day.link}" class="day-card ${passedClass}" data-date="${day.date}">
+                <div class="day-card ${passedClass}" data-date="${day.date}" data-link="${day.link}" data-unlocked="${countdown.passed}">
                     <span class="day-icon">${day.icon}</span>
                     <div class="day-name">${day.name}</div>
                     <div class="day-date">${formatDate(day.date)}</div>
                     ${countdownHTML}
-                </a>
+                </div>
             `;
       }
 
@@ -423,7 +565,48 @@
         container.innerHTML = valentineDays
           .map((day) => createCard(day))
           .join("");
+
+        // Add click handlers to all cards
+        document.querySelectorAll(".day-card").forEach((card) => {
+          card.addEventListener("click", handleCardClick);
+        });
       }
+
+      // Handle card clicks
+      function handleCardClick(e) {
+        const card = e.currentTarget;
+        const isUnlocked = card.dataset.unlocked === "true";
+        const link = card.dataset.link;
+
+        if (isUnlocked) {
+          // Card is unlocked, navigate to link
+          window.location.href = link;
+        } else {
+          // Card is locked, show modal
+          e.preventDefault();
+          showModal();
+        }
+      }
+
+      // Show modal
+      function showModal() {
+        const modal = document.getElementById("modal");
+        modal.classList.add("active");
+      }
+
+      // Close modal
+      function closeModal() {
+        const modal = document.getElementById("modal");
+        modal.classList.remove("active");
+      }
+
+      // Close modal when clicking outside
+      document.addEventListener("click", function (e) {
+        const modal = document.getElementById("modal");
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
 
       // Update all countdowns
       function updateCountdowns() {
@@ -431,11 +614,31 @@
           const card = document.querySelectorAll(".day-card")[index];
           const countdown = getCountdown(day.date);
 
-          if (countdown.passed && !card.classList.contains("passed")) {
-            card.classList.add("passed");
+          if (countdown.passed && card.dataset.unlocked === "false") {
+            // Just became unlocked
+            card.dataset.unlocked = "true";
+            card.classList.remove("passed");
+            card.classList.add("unlocked");
+
+            // Smooth transition - hide countdown first
             const countdownDiv = card.querySelector(".countdown");
-            countdownDiv.innerHTML =
-              '<div class="countdown-label">This day has passed ✨</div>';
+            if (countdownDiv) {
+              countdownDiv.style.opacity = "0";
+              countdownDiv.style.transition = "opacity 0.5s";
+              setTimeout(() => {
+                countdownDiv.remove();
+              }, 500);
+            }
+
+            // Hide date
+            const dateDiv = card.querySelector(".day-date");
+            if (dateDiv) {
+              dateDiv.style.opacity = "0";
+              dateDiv.style.transition = "opacity 0.5s";
+              setTimeout(() => {
+                dateDiv.style.display = "none";
+              }, 500);
+            }
           } else if (!countdown.passed) {
             const daysEl = card.querySelector("[data-days]");
             const hoursEl = card.querySelector("[data-hours]");
