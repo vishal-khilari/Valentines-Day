@@ -2,13 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
-    />
-    <meta name="theme-color" content="#d63384" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Our Valentine's Week 💕</title>
     <style>
       * {
@@ -27,7 +21,6 @@
         );
         min-height: 100vh;
         padding: 2rem 1rem;
-        padding-bottom: max(2rem, env(safe-area-inset-bottom));
         overflow-x: hidden;
       }
 
@@ -96,31 +89,6 @@
       .day-card:hover {
         transform: translateY(-10px) scale(1.02);
         box-shadow: 0 16px 48px rgba(214, 51, 132, 0.25);
-      }
-
-      /* Touch device improvements */
-      @media (hover: none) and (pointer: coarse) {
-        .day-card:hover {
-          transform: none;
-        }
-
-        .day-card:active {
-          transform: scale(0.98);
-        }
-
-        .feedback-button:hover,
-        .modal-close:hover,
-        .feedback-submit:hover,
-        .feedback-cancel:hover {
-          transform: none;
-        }
-
-        .feedback-button:active,
-        .modal-close:active,
-        .feedback-submit:active,
-        .feedback-cancel:active {
-          transform: scale(0.97);
-        }
       }
 
       .day-card.unlocked {
@@ -305,9 +273,6 @@
         resize: vertical;
         margin-bottom: 1.5rem;
         transition: border-color 0.3s ease;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
       }
 
       .feedback-form textarea:focus {
@@ -317,13 +282,6 @@
 
       .feedback-form textarea::placeholder {
         color: #c794ab;
-      }
-
-      /* Prevent zoom on input focus for mobile */
-      @media (max-width: 768px) {
-        .feedback-form textarea {
-          font-size: 16px;
-        }
       }
 
       .feedback-buttons {
@@ -531,46 +489,18 @@
         }
       }
 
+      /* Mobile Responsive */
       @media (max-width: 768px) {
         .header h1 {
           font-size: 2rem;
         }
 
-        .header p {
-          font-size: 1rem;
-        }
-
         .container {
           grid-template-columns: 1fr;
-          gap: 1.2rem;
         }
 
         .day-card {
           padding: 1.5rem;
-        }
-
-        .day-card.unlocked .day-icon {
-          font-size: 4rem;
-        }
-
-        .day-card.unlocked .day-name {
-          font-size: 1.5rem;
-        }
-
-        .day-icon {
-          font-size: 2.5rem;
-        }
-
-        .day-name {
-          font-size: 1.3rem;
-        }
-
-        .countdown-number {
-          font-size: 1.2rem;
-        }
-
-        .countdown-text {
-          font-size: 0.65rem;
         }
 
         .feedback-section {
@@ -582,24 +512,6 @@
           font-size: 1rem;
         }
 
-        .modal-content {
-          padding: 2rem 1.5rem;
-          width: 95%;
-        }
-
-        .modal-emoji {
-          font-size: 3rem;
-        }
-
-        .modal-message {
-          font-size: 1.2rem;
-        }
-
-        .modal-close {
-          padding: 0.9rem 2rem;
-          font-size: 1rem;
-        }
-
         .feedback-content {
           padding: 2rem 1.5rem;
           width: 95%;
@@ -609,14 +521,9 @@
           font-size: 1.6rem;
         }
 
-        .feedback-header p {
-          font-size: 0.95rem;
-        }
-
         .feedback-form textarea {
           min-height: 120px;
-          font-size: 0.95rem;
-          padding: 0.9rem;
+          font-size: 16px;
         }
 
         .feedback-buttons {
@@ -626,122 +533,7 @@
 
         .feedback-submit,
         .feedback-cancel {
-          padding: 0.9rem 1.5rem;
-          font-size: 0.95rem;
           width: 100%;
-        }
-      }
-
-      @media (max-width: 480px) {
-        body {
-          padding: 1.5rem 0.5rem;
-        }
-
-        .header {
-          margin-bottom: 2rem;
-        }
-
-        .header h1 {
-          font-size: 1.6rem;
-        }
-
-        .header p {
-          font-size: 0.9rem;
-        }
-
-        .container {
-          padding: 0 0.5rem;
-          gap: 1rem;
-        }
-
-        .day-card {
-          padding: 1.2rem;
-          min-height: 250px;
-        }
-
-        .day-card.unlocked {
-          min-height: 250px;
-        }
-
-        .day-card.unlocked .day-icon {
-          font-size: 3.5rem;
-        }
-
-        .day-card.unlocked .day-name {
-          font-size: 1.3rem;
-        }
-
-        .day-icon {
-          font-size: 2.2rem;
-        }
-
-        .day-name {
-          font-size: 1.2rem;
-        }
-
-        .day-date {
-          font-size: 0.9rem;
-        }
-
-        .countdown {
-          padding: 0.8rem;
-        }
-
-        .countdown-label {
-          font-size: 0.7rem;
-        }
-
-        .countdown-number {
-          font-size: 1.1rem;
-        }
-
-        .countdown-text {
-          font-size: 0.6rem;
-        }
-
-        .feedback-section {
-          margin: 2rem auto 1.5rem;
-        }
-
-        .feedback-button {
-          padding: 0.9rem 1.8rem;
-          font-size: 0.95rem;
-        }
-
-        .modal-content,
-        .feedback-content {
-          padding: 1.8rem 1.2rem;
-          border-radius: 20px;
-        }
-
-        .modal-emoji {
-          font-size: 2.5rem;
-          margin-bottom: 1rem;
-        }
-
-        .modal-message {
-          font-size: 1.1rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .modal-close {
-          padding: 0.8rem 1.8rem;
-          font-size: 0.95rem;
-        }
-
-        .feedback-header h2 {
-          font-size: 1.4rem;
-        }
-
-        .feedback-header p {
-          font-size: 0.9rem;
-        }
-
-        .feedback-form textarea {
-          min-height: 100px;
-          font-size: 0.9rem;
-          padding: 0.8rem;
-          margin-bottom: 1.2rem;
         }
       }
 
@@ -947,6 +739,7 @@
                      </div>
                    </div>`;
 
+        // Don't use href for locked cards, add it dynamically when unlocked
         return `
                 <div class="day-card" data-date="${day.date}" data-link="${day.link}" data-unlocked="${countdown.passed}">
                     <span class="day-icon">${day.icon}</span>
@@ -1051,14 +844,12 @@
 
           if (!feedbackText) return;
 
-          // Disable button while sending
           submitBtn.disabled = true;
           submitBtn.textContent = "Sending... 💕";
 
           const success = await sendFeedbackToTelegram(feedbackText);
 
           if (success) {
-            // Show success message
             const feedbackModal = document.getElementById("feedbackModal");
             const feedbackContent =
               feedbackModal.querySelector(".feedback-content");
@@ -1074,7 +865,6 @@
             </button>
           `;
 
-            // Auto-close and restore after 2 seconds
             setTimeout(() => {
               closeFeedbackModal();
               restoreFeedbackForm();
@@ -1114,12 +904,11 @@
           </form>
         `;
 
-        // Re-attach the event listener
+        // Re-attach event listener
         document
           .getElementById("feedbackForm")
           .addEventListener("submit", async function (e) {
             e.preventDefault();
-
             const feedbackText = document
               .getElementById("feedbackText")
               .value.trim();
@@ -1160,20 +949,7 @@
           });
       }
 
-      // Close modal when clicking outside
-      document.addEventListener("click", function (e) {
-        const modal = document.getElementById("modal");
-        const feedbackModal = document.getElementById("feedbackModal");
-
-        if (e.target === modal) {
-          closeModal();
-        }
-        if (e.target === feedbackModal) {
-          closeFeedbackModal();
-        }
-      });
-
-      // Update all countdowns
+      // Update countdowns
       function updateCountdowns() {
         valentineDays.forEach((day, index) => {
           const card = document.querySelectorAll(".day-card")[index];
@@ -1237,6 +1013,19 @@
           }, 15000);
         }, 3000);
       }
+
+      // Close modals when clicking outside
+      document.addEventListener("click", function (e) {
+        const modal = document.getElementById("modal");
+        const feedbackModal = document.getElementById("feedbackModal");
+
+        if (e.target === modal) {
+          closeModal();
+        }
+        if (e.target === feedbackModal) {
+          closeFeedbackModal();
+        }
+      });
 
       // Initialize
       initializeCards();
