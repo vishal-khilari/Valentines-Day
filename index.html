@@ -2,7 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
+    <meta name="theme-color" content="#d63384" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Our Valentine's Week 💕</title>
     <style>
       * {
@@ -21,6 +27,7 @@
         );
         min-height: 100vh;
         padding: 2rem 1rem;
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
         overflow-x: hidden;
       }
 
@@ -89,6 +96,31 @@
       .day-card:hover {
         transform: translateY(-10px) scale(1.02);
         box-shadow: 0 16px 48px rgba(214, 51, 132, 0.25);
+      }
+
+      /* Touch device improvements */
+      @media (hover: none) and (pointer: coarse) {
+        .day-card:hover {
+          transform: none;
+        }
+
+        .day-card:active {
+          transform: scale(0.98);
+        }
+
+        .feedback-button:hover,
+        .modal-close:hover,
+        .feedback-submit:hover,
+        .feedback-cancel:hover {
+          transform: none;
+        }
+
+        .feedback-button:active,
+        .modal-close:active,
+        .feedback-submit:active,
+        .feedback-cancel:active {
+          transform: scale(0.97);
+        }
       }
 
       .day-card.unlocked {
@@ -184,6 +216,157 @@
       .modal-close:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+      }
+
+      /* Feedback Section */
+      .feedback-section {
+        max-width: 600px;
+        margin: 4rem auto 2rem;
+        text-align: center;
+        animation: fadeInUp 0.6s ease 0.9s backwards;
+        padding: 0 1rem;
+      }
+
+      .feedback-button {
+        background: linear-gradient(135deg, #d63384 0%, #c1276d 100%);
+        color: white;
+        border: none;
+        padding: 1.2rem 3rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        box-shadow: 0 8px 25px rgba(214, 51, 132, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .feedback-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 12px 35px rgba(214, 51, 132, 0.5);
+      }
+
+      /* Feedback Modal */
+      .feedback-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(214, 51, 132, 0.95);
+        z-index: 1001;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.4s ease;
+      }
+
+      .feedback-modal.active {
+        display: flex;
+      }
+
+      .feedback-content {
+        background: linear-gradient(135deg, #fff 0%, #fffafd 100%);
+        border-radius: 30px;
+        padding: 2.5rem;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .feedback-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .feedback-header h2 {
+        font-size: 2rem;
+        color: #d63384;
+        margin-bottom: 0.5rem;
+      }
+
+      .feedback-header p {
+        color: #8b3a62;
+        font-size: 1rem;
+      }
+
+      .feedback-form textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 1rem;
+        border: 2px solid #ffe0f0;
+        border-radius: 15px;
+        font-family: inherit;
+        font-size: 1rem;
+        color: #8b3a62;
+        resize: vertical;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.3s ease;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      .feedback-form textarea:focus {
+        outline: none;
+        border-color: #d63384;
+      }
+
+      .feedback-form textarea::placeholder {
+        color: #c794ab;
+      }
+
+      /* Prevent zoom on input focus for mobile */
+      @media (max-width: 768px) {
+        .feedback-form textarea {
+          font-size: 16px;
+        }
+      }
+
+      .feedback-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .feedback-submit,
+      .feedback-cancel {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .feedback-submit {
+        background: linear-gradient(135deg, #d63384 0%, #c1276d 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+      }
+
+      .feedback-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+      }
+
+      .feedback-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .feedback-cancel {
+        background: #ffe0f0;
+        color: #8b3a62;
+      }
+
+      .feedback-cancel:hover {
+        background: #ffd4e8;
       }
 
       @keyframes fadeIn {
@@ -353,12 +536,212 @@
           font-size: 2rem;
         }
 
+        .header p {
+          font-size: 1rem;
+        }
+
         .container {
           grid-template-columns: 1fr;
+          gap: 1.2rem;
         }
 
         .day-card {
           padding: 1.5rem;
+        }
+
+        .day-card.unlocked .day-icon {
+          font-size: 4rem;
+        }
+
+        .day-card.unlocked .day-name {
+          font-size: 1.5rem;
+        }
+
+        .day-icon {
+          font-size: 2.5rem;
+        }
+
+        .day-name {
+          font-size: 1.3rem;
+        }
+
+        .countdown-number {
+          font-size: 1.2rem;
+        }
+
+        .countdown-text {
+          font-size: 0.65rem;
+        }
+
+        .feedback-section {
+          margin: 3rem auto 2rem;
+        }
+
+        .feedback-button {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+
+        .modal-content {
+          padding: 2rem 1.5rem;
+          width: 95%;
+        }
+
+        .modal-emoji {
+          font-size: 3rem;
+        }
+
+        .modal-message {
+          font-size: 1.2rem;
+        }
+
+        .modal-close {
+          padding: 0.9rem 2rem;
+          font-size: 1rem;
+        }
+
+        .feedback-content {
+          padding: 2rem 1.5rem;
+          width: 95%;
+        }
+
+        .feedback-header h2 {
+          font-size: 1.6rem;
+        }
+
+        .feedback-header p {
+          font-size: 0.95rem;
+        }
+
+        .feedback-form textarea {
+          min-height: 120px;
+          font-size: 0.95rem;
+          padding: 0.9rem;
+        }
+
+        .feedback-buttons {
+          flex-direction: column;
+          gap: 0.8rem;
+        }
+
+        .feedback-submit,
+        .feedback-cancel {
+          padding: 0.9rem 1.5rem;
+          font-size: 0.95rem;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 1.5rem 0.5rem;
+        }
+
+        .header {
+          margin-bottom: 2rem;
+        }
+
+        .header h1 {
+          font-size: 1.6rem;
+        }
+
+        .header p {
+          font-size: 0.9rem;
+        }
+
+        .container {
+          padding: 0 0.5rem;
+          gap: 1rem;
+        }
+
+        .day-card {
+          padding: 1.2rem;
+          min-height: 250px;
+        }
+
+        .day-card.unlocked {
+          min-height: 250px;
+        }
+
+        .day-card.unlocked .day-icon {
+          font-size: 3.5rem;
+        }
+
+        .day-card.unlocked .day-name {
+          font-size: 1.3rem;
+        }
+
+        .day-icon {
+          font-size: 2.2rem;
+        }
+
+        .day-name {
+          font-size: 1.2rem;
+        }
+
+        .day-date {
+          font-size: 0.9rem;
+        }
+
+        .countdown {
+          padding: 0.8rem;
+        }
+
+        .countdown-label {
+          font-size: 0.7rem;
+        }
+
+        .countdown-number {
+          font-size: 1.1rem;
+        }
+
+        .countdown-text {
+          font-size: 0.6rem;
+        }
+
+        .feedback-section {
+          margin: 2rem auto 1.5rem;
+        }
+
+        .feedback-button {
+          padding: 0.9rem 1.8rem;
+          font-size: 0.95rem;
+        }
+
+        .modal-content,
+        .feedback-content {
+          padding: 1.8rem 1.2rem;
+          border-radius: 20px;
+        }
+
+        .modal-emoji {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .modal-message {
+          font-size: 1.1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+          padding: 0.8rem 1.8rem;
+          font-size: 0.95rem;
+        }
+
+        .feedback-header h2 {
+          font-size: 1.4rem;
+        }
+
+        .feedback-header p {
+          font-size: 0.9rem;
+        }
+
+        .feedback-form textarea {
+          min-height: 100px;
+          font-size: 0.9rem;
+          padding: 0.8rem;
+          margin-bottom: 1.2rem;
         }
       }
 
@@ -407,6 +790,35 @@
       </div>
     </div>
 
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedbackModal">
+      <div class="feedback-content">
+        <div class="feedback-header">
+          <h2>💌 Share Your Thoughts</h2>
+          <p>Tell me what you think about our Valentine's Week!</p>
+        </div>
+        <form class="feedback-form" id="feedbackForm">
+          <textarea
+            id="feedbackText"
+            placeholder="Your feedback means the world to me... 💕"
+            required
+          ></textarea>
+          <div class="feedback-buttons">
+            <button type="submit" class="feedback-submit" id="submitBtn">
+              Send Feedback 💖
+            </button>
+            <button
+              type="button"
+              class="feedback-cancel"
+              onclick="closeFeedbackModal()"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="header">
       <h1>Our Valentine's Week 💕</h1>
       <p>Every day is a celebration of us</p>
@@ -414,7 +826,19 @@
 
     <div class="container" id="container"></div>
 
+    <!-- Feedback Section -->
+    <div class="feedback-section">
+      <button class="feedback-button" onclick="openFeedbackModal()">
+        <span>💬</span>
+        <span>Share Your Feedback</span>
+      </button>
+    </div>
+
     <script>
+      // Telegram Bot Configuration
+      const BOT_TOKEN = "8033918028:AAEAhNEBsm05eY08_2T0KpVA5uvPw941uHw";
+      const CHAT_ID = "6220286036";
+
       // Valentine's Week days configuration
       const valentineDays = [
         {
@@ -523,7 +947,6 @@
                      </div>
                    </div>`;
 
-        // Don't use href for locked cards, add it dynamically when unlocked
         return `
                 <div class="day-card" data-date="${day.date}" data-link="${day.link}" data-unlocked="${countdown.passed}">
                     <span class="day-icon">${day.icon}</span>
@@ -575,11 +998,178 @@
         modal.classList.remove("active");
       }
 
+      // Open feedback modal
+      function openFeedbackModal() {
+        const feedbackModal = document.getElementById("feedbackModal");
+        feedbackModal.classList.add("active");
+        document.getElementById("feedbackText").focus();
+      }
+
+      // Close feedback modal
+      function closeFeedbackModal() {
+        const feedbackModal = document.getElementById("feedbackModal");
+        feedbackModal.classList.remove("active");
+        document.getElementById("feedbackText").value = "";
+      }
+
+      // Send feedback to Telegram
+      async function sendFeedbackToTelegram(message) {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+        const formattedMessage = `💌 New Feedback from Valentine's Week!\n\n${message}\n\n⏰ Time: ${new Date().toLocaleString()}`;
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: formattedMessage,
+              parse_mode: "HTML",
+            }),
+          });
+
+          return response.ok;
+        } catch (error) {
+          console.error("Error sending feedback:", error);
+          return false;
+        }
+      }
+
+      // Handle feedback form submission
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const feedbackText = document
+            .getElementById("feedbackText")
+            .value.trim();
+          const submitBtn = document.getElementById("submitBtn");
+
+          if (!feedbackText) return;
+
+          // Disable button while sending
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Sending... 💕";
+
+          const success = await sendFeedbackToTelegram(feedbackText);
+
+          if (success) {
+            // Show success message
+            const feedbackModal = document.getElementById("feedbackModal");
+            const feedbackContent =
+              feedbackModal.querySelector(".feedback-content");
+
+            feedbackContent.innerHTML = `
+            <div class="feedback-header">
+              <span class="modal-emoji">💖</span>
+              <h2>Thank You!</h2>
+              <p>Your feedback has been received. It means so much! 💕</p>
+            </div>
+            <button class="modal-close" onclick="closeFeedbackModal(); restoreFeedbackForm();">
+              Close
+            </button>
+          `;
+
+            // Auto-close and restore after 2 seconds
+            setTimeout(() => {
+              closeFeedbackModal();
+              restoreFeedbackForm();
+            }, 2000);
+          } else {
+            alert("Failed to send feedback. Please try again!");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send Feedback 💖";
+          }
+        });
+
+      // Restore feedback form
+      function restoreFeedbackForm() {
+        const feedbackModal = document.getElementById("feedbackModal");
+        const feedbackContent =
+          feedbackModal.querySelector(".feedback-content");
+
+        feedbackContent.innerHTML = `
+          <div class="feedback-header">
+            <h2>💌 Share Your Thoughts</h2>
+            <p>Tell me what you think about our Valentine's Week!</p>
+          </div>
+          <form class="feedback-form" id="feedbackForm">
+            <textarea
+              id="feedbackText"
+              placeholder="Your feedback means the world to me... 💕"
+              required
+            ></textarea>
+            <div class="feedback-buttons">
+              <button type="submit" class="feedback-submit" id="submitBtn">
+                Send Feedback 💖
+              </button>
+              <button type="button" class="feedback-cancel" onclick="closeFeedbackModal()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        `;
+
+        // Re-attach the event listener
+        document
+          .getElementById("feedbackForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const feedbackText = document
+              .getElementById("feedbackText")
+              .value.trim();
+            const submitBtn = document.getElementById("submitBtn");
+
+            if (!feedbackText) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending... 💕";
+
+            const success = await sendFeedbackToTelegram(feedbackText);
+
+            if (success) {
+              const feedbackModal = document.getElementById("feedbackModal");
+              const feedbackContent =
+                feedbackModal.querySelector(".feedback-content");
+
+              feedbackContent.innerHTML = `
+              <div class="feedback-header">
+                <span class="modal-emoji">💖</span>
+                <h2>Thank You!</h2>
+                <p>Your feedback has been received. It means so much! 💕</p>
+              </div>
+              <button class="modal-close" onclick="closeFeedbackModal(); restoreFeedbackForm();">
+                Close
+              </button>
+            `;
+
+              setTimeout(() => {
+                closeFeedbackModal();
+                restoreFeedbackForm();
+              }, 2000);
+            } else {
+              alert("Failed to send feedback. Please try again!");
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send Feedback 💖";
+            }
+          });
+      }
+
       // Close modal when clicking outside
       document.addEventListener("click", function (e) {
         const modal = document.getElementById("modal");
+        const feedbackModal = document.getElementById("feedbackModal");
+
         if (e.target === modal) {
           closeModal();
+        }
+        if (e.target === feedbackModal) {
+          closeFeedbackModal();
         }
       });
 
