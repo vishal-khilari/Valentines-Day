@@ -809,7 +809,7 @@
       async function sendFeedbackToTelegram(message) {
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-        const formattedMessage = `💌 New Feedback from Valentine's Week!\n\n${message}\n\n⏰ Time: ${new Date().toLocaleString()}`;
+        const formattedMessage = `💌 New Feedback from Valentine's Week!\n\n${message}\n\n Time: ${new Date().toLocaleString()}`;
 
         try {
           const response = await fetch(url, {
