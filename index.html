@@ -860,15 +860,15 @@
               <h2>Thank You!</h2>
               <p>Your feedback has been received. It means so much! 💕</p>
             </div>
-            <button class="modal-close" onclick="closeFeedbackModal(); restoreFeedbackForm();">
-              Close
-            </button>
+            <div class="feedback-buttons">
+              <button class="feedback-submit" onclick="restoreFeedbackForm();">
+                Send More Feedback 💌
+              </button>
+              <button class="feedback-cancel" onclick="closeFeedbackModal(); restoreFeedbackForm();">
+                Close
+              </button>
+            </div>
           `;
-
-            setTimeout(() => {
-              closeFeedbackModal();
-              restoreFeedbackForm();
-            }, 2000);
           } else {
             alert("Failed to send feedback. Please try again!");
             submitBtn.disabled = false;
@@ -932,15 +932,15 @@
                 <h2>Thank You!</h2>
                 <p>Your feedback has been received. It means so much! 💕</p>
               </div>
-              <button class="modal-close" onclick="closeFeedbackModal(); restoreFeedbackForm();">
-                Close
-              </button>
+              <div class="feedback-buttons">
+                <button class="feedback-submit" onclick="restoreFeedbackForm();">
+                  Send More Feedback 💌
+                </button>
+                <button class="feedback-cancel" onclick="closeFeedbackModal(); restoreFeedbackForm();">
+                  Close
+                </button>
+              </div>
             `;
-
-              setTimeout(() => {
-                closeFeedbackModal();
-                restoreFeedbackForm();
-              }, 2000);
             } else {
               alert("Failed to send feedback. Please try again!");
               submitBtn.disabled = false;
